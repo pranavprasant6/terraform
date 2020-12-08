@@ -8,19 +8,19 @@ provider "google" {
 #************************************************************************************
 # CREATE SPOKE2 VPC & SPOKE2 VM
 #************************************************************************************
-#module "vpc_spoke2" {
-#  source            = "./modules/create_vpc/"
-#  vpc_name          = "spoke2-vpc"
-#  subnetworks       = ["spoke2-subnet"]
-#  ip_cidrs          = ["10.10.2.0/24"]
-#  regions           = ["${var.region}"]
-#  ingress_allow_all = true
-#  ingress_sources   = ["0.0.0.0/0"]
+module "vpc_spoke2" {
+  source            = "./modules/create_vpc/"
+  vpc_name          = "spoke2-vpc"
+  subnetworks       = ["spoke2-subnet"]
+  ip_cidrs          = ["10.10.2.0/24"]
+  regions           = ["${var.region}"]
+  ingress_allow_all = true
+  ingress_sources   = ["0.0.0.0/0"]
 
-#  providers = {
-#    google = "google.spoke2"
-#  }
-#}
+  providers = {
+    google = "google.spoke2"
+  }
+}
 
 #module "vm_spoke2" {
 #  source          = "./modules/create_vm/"
@@ -39,17 +39,17 @@ provider "google" {
 #************************************************************************************
 # CREATE PEERING LINK SPOKE2-to-TRUST
 #************************************************************************************
-#resource "google_compute_network_peering" "spoke2_to_trust" {
-#  name         = "spoke2-to-trust"
-#  network      = "${module.vpc_spoke2.vpc_self_link}"
-#  peer_network = "${module.vpc_trust.vpc_self_link}"
+resource "google_compute_network_peering" "spoke2_to_trust" {
+  name         = "spoke2-to-trust"
+  network      = "${module.vpc_spoke2.vpc_self_link}"
+  peer_network = "${module.vpc_trust.vpc_self_link}"
 
-#  provisioner "local-exec" {
-#    command = "sleep 45"
-#  }
+  provisioner "local-exec" {
+    command = "sleep 45"
+  }
 
-#  depends_on = [
-#    "google_compute_network_peering.spoke1_to_trust",
-#  ]
-#  provider = "google.spoke2"
-#}
+  depends_on = [
+    "google_compute_network_peering.spoke1_to_trust",
+  ]
+  provider = "google.spoke2"
+}
