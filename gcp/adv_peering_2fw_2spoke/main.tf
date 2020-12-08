@@ -57,7 +57,7 @@ module "bootstrap" {
 module "vm_fw" {
   source          = "./modules/create_vmseries/"
   fw_names        = ["vmseries01", "vmseries02"]
-  fw_machine_type = "n1-standard-2"
+  fw_machine_type = "n1-standard-4"
   fw_zones        = ["${var.region}-a", "${var.region}-b"]
   fw_subnetworks  = ["${module.vpc_untrust.subnetwork_self_link[0]}", "${module.vpc_mgmt.subnetwork_self_link[0]}", "${module.vpc_trust.subnetwork_self_link[0]}"]
 
