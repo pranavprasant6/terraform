@@ -39,10 +39,6 @@ module "ilb_web" {
       {
         group    = module.vm_spoke1.instance_group[0]
         failover = false
-      },
-      {
-        group    = module.vm_spoke1.instance_group[1]
-        failover = false
       }
     ]
   }

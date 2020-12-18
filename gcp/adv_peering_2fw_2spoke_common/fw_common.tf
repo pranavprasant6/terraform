@@ -64,20 +64,12 @@ module "lb_outbound" {
       {
         group    = module.fw_common.instance_group[0]
         failover = false
-      },
-      {
-        group    = module.fw_common.instance_group[1]
-        failover = false
       }
     ]
     "1" = [
       {
         group    = module.fw_common.instance_group[0]
         failover = false
-      },
-      {
-        group    = module.fw_common.instance_group[1]
-        failover = true
       }
     ]
   }
@@ -116,10 +108,6 @@ output EXT-LB {
 
 output MGMT-FW1 {
   value = "https://${module.fw_common.nic1_public_ip[0]}"
-}
-
-output MGMT-FW2 {
-  value = "https://${module.fw_common.nic1_public_ip[1]}"
 }
 
 output SSH-TO-SPOKE1 {
